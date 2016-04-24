@@ -11,7 +11,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 // attribute.probability() = this.multiplier * this.weight;
 
 class attribute {
-   constructor(weight, multiplier){
+   constructor(weight = 0.5, multiplier = 1.0){
       this.weight = weight;
       this.multiplier = multiplier;
    }
@@ -53,16 +53,32 @@ function resetActivationLevels() {
    reloadAttributes();
 }
 
-//numNodes:int - number of nodes in each array
-//ratio: double - arr1/arr2
-function randomInit(numNodes,ratio,arr1,arr2)
+//count:int - number of nodes in each array
+//ratio: double - secondaryArray weights/dominantArray weights
+function randomizeWeights(count, ratio, dominantArray, secondaryArray)
 {
-  for(i=0;i < numNodes;i++) {
-    arr1[i].weight=Math.random();
-    if(arr1[i].weight/ratio>1)
-      arr2[i].weight=arr1[i].weight*ratio;
-    else arr2[i].weight=arr1[i].weight/ratio;
-  }
+      for(i = 0;i < count; i++) {
+        temp=Math.random();  // between 0 and 1
+
+        if (ratio > 0.5) {
+           dominantArray[i].weight=temp;
+           secondaryArray[i].weight=temp*ratio;
+        }else{
+           dominantArray[i].weight=temp*ratio;
+           secondaryArray[i].weight=temp;
+        }
+     }
+
+
+   var dominantSum = 0;
+   var secondarySum = 0;
+   for (var i = 0; i < count; i++) {
+      dominantSum += dominantArray[i].weight;
+      secondarySum += secondaryArray[i].weight;
+   }
+
+   var stribg = "Dominant Sum:"+dominantSum+" Secondary Sum:"+secondarySum+" Divided: "+dominantSum/secondarySum;
+   alert(stribg);
 }
 
 function generateArray(count) {
@@ -71,9 +87,11 @@ function generateArray(count) {
    secondartAttributeArray = [];
 
    for (var i = 0; i < count; i++) {
-      dominantAttributeArray.push(new attribute(i, 0.8));
-      secondartAttributeArray.push(new attribute(i*2, 1.0));
+      dominantAttributeArray.push(new attribute());
+      secondartAttributeArray.push(new attribute());
    }
+
+   randomizeWeights(count, baseline, dominantAttributeArray, secondartAttributeArray);
 }
 
 function reloadAttributes(){
