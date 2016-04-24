@@ -27,8 +27,8 @@
     <h1 class="header">Activation Selection Model Simulator</h1>
 
     <div class="w-container wordmeaningcontainer">
-      <div class="wordmeaing">Dominant Meaning/Spelling: &nbsp;Air</div>
-      <div class="wordmeaing">Secondary Meaning/Spelling: &nbsp;Heir</div>
+      <div id="dominantMeaningTicker" class="wordmeaing">Dominant Meaning/Spelling: &nbsp;Air</div>
+      <div id="secondaryMeaningTicker" class="wordmeaing">Secondary Meaning/Spelling: &nbsp;Heir</div>
     </div>
 
 
@@ -43,17 +43,21 @@
     </div>
 
     <div class="w-container primingstatuscontainer">
-      <div class="currentmeaning">Current Selection: &nbsp;Dominant - 74%</div>
+      <div id="currentSelection" class="currentmeaning">Current Selection: &nbsp;Dominant - 74%</div>
       <div class="primingsequence">Priming Sequence: [press one of the priming buttons below]&nbsp;</div>
     </div>
 
     <div class="w-container primingbuttoncontainer">
       <a href="#" class="w-button primingbutton">Dominant Prime</a>
+      <a href="#" class="w-button primingbutton">Make Selection</a>
       <a href="#" class="w-button primingbutton">Secondary Prime</a>
+    </div>
+    <div class="w-container primingbuttoncontainer">
       <a href="#" class="w-button primingbutton" onClick="showParameters();">Parameters</a>
       <a href="#" class="w-button primingbutton" onClick="showTutorial();">Tutorial</a>
       <a href="#" class="w-button primingbutton" onclick="showDataIO();">Import/Export</a>
     </div>
+
   </div>
 
   <script type="text/javascript" src="js/webflow.js"></script>
