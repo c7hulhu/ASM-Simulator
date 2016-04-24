@@ -11,6 +11,7 @@ var mainWindow = null;
 
 var parametersWindow = null;
 var tutorialWindow = null;
+var dataIOWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -46,13 +47,14 @@ app.on('ready', function() {
     mainWindow = null;
     tutorialWindow.destroy();
     parametersWindow.destroy();
+    dataIOWindow.destroy();
     app.quit();
   });
 
   // Make the Parameters Page
   parametersWindow = new BrowserWindow({
      width: 420,
-     height: 750,
+     height: 850,
      minWidth: 420,
      //resizable: false,
      show: false,
@@ -62,6 +64,21 @@ app.on('ready', function() {
   });
 
   parametersWindow.loadURL('file://' + __dirname + '/settings.html');
+
+
+  // Make the Data Import/Export Page
+  dataIOWindow = new BrowserWindow({
+     width: 420,
+     height: 550,
+     minWidth: 420,
+     //resizable: false,
+     show: false,
+     alwaysOnTop: true,
+     title: "Data Import/Export",
+     center: true,
+  });
+
+  dataIOWindow.loadURL('file://' + __dirname + '/dataio.html');
 
 
   // Make the tutorial Page
@@ -80,20 +97,41 @@ app.on('ready', function() {
   // event coming from main.html buttom press
   ipcMain.on('showSettings', function(event, args) {
     parametersWindow.once('show', function() {
-       parametersWindow.webContents.send('old-Data', args);
+       parametersWindow.webContents.send('old-Settings', args);
     });
     parametersWindow.show();
-  });
-
-  ipcMain.on('showTutorial', function() {
-     tutorialWindow.show();
   });
 
   ipcMain.on('hideSettings', function(event, args) {
     parametersWindow.hide();
     if(args){
+      mainWindow.webContents.send('new-Settings', args);
+   }
+  });
+
+
+
+
+  ipcMain.on('showDataPage', function(event, args) {
+     dataIOWindow.once('show', function() {
+       dataIOWindow.webContents.send('old-Data', args);
+     });
+     dataIOWindow.show();
+  });
+
+  ipcMain.on('hideDataPage', function(event, args) {
+    dataIOWindow.hide();
+    if(args){
       mainWindow.webContents.send('new-Data', args);
    }
+  });
+
+
+
+
+
+  ipcMain.on('showTutorial', function() {
+     tutorialWindow.show();
   });
 
   ipcMain.on('hideTutorial', function(event, args) {

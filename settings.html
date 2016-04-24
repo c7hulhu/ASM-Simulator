@@ -62,7 +62,7 @@
            <label class="parametertitle">Attribute weight increment:</label>
            <input id="attributeWeightIncrement" type="text" placeholder="Enter a Decimal Less Than 1" name="attributeWeightIncrement" required="required" data-name="attributeWeightIncrement" class="w-input textfield">
 
-           <label class="parametertitle">Baseline attribute weight distribution:</label>
+           <!-- <label class="parametertitle">Baseline attribute weight distribution:</label>
            <div class="w-radio w-clearfix">
              <input id="Randomized" type="radio" name="weightDirstibution" value="Randomized" data-name="weightDirstibution" required="required" class="w-radio-input">
              <label for="Randomized" class="w-form-label optiontitle">Randomized</label>
@@ -70,9 +70,15 @@
            <div class="w-radio w-clearfix">
              <input id="EqualRatio" type="radio" name="weightDirstibution" value="EqualRatio" data-name="weightDirstibution" class="w-radio-input">
              <label for="EqualRatio" class="w-form-label optiontitle">Equal ratio</label>
-           </div>
+           </div> -->
 
-           <button id="save" class="w-button primingbutton formbutton" onClick="saveParameters();">Submit</button>
+           <label class="parametertitle">Decay time in milliseconds:</label>
+           <input id="decayTime" type="text" placeholder="Enter the Activation Decay Time" name="decayTime" required="required" data-name="decayTime" class="w-input textfield">
+
+           <label class="parametertitle">Decay time multiplier:</label>
+           <input id="decayTimeMultiplier" type="text" placeholder="Enter a Number More Than 1" name="decayTimeMultiplier" required="required" data-name="decayTimeMultiplier" class="w-input textfield">
+
+           <button id="save" class="w-button primingbutton formbutton" onClick="saveParameters();">Save And Reload</button>
          </form>
 
          <div class="w-form-done">

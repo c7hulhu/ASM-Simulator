@@ -8,7 +8,14 @@ var primingMethod = 'Word';
 var resistanceLevel = 80;
 var attributeWeightRep = 'Decimals';
 var attributeWeightIncrement = 0.354;
-var weightDirstibution = 'Randomized';
+// var weightDirstibution = 'Randomized';
+var decayTime = 5;
+var decayTimeMultiplier = 20;
+
+var dominantMeaning = 'Air';
+var secondaryMeaning = 'Heir';
+var baseline = 0.74;
+var selectionThreshold = 0.611;
 
 function generateArray(count) {
 
@@ -38,26 +45,46 @@ function showParameters(){
                                     resistanceLevel : resistanceLevel,
                                  attributeWeightRep : attributeWeightRep,
                            attributeWeightIncrement : attributeWeightIncrement,
-                                 weightDirstibution : weightDirstibution});
+                                 // weightDirstibution : weightDirstibution,
+                                          decayTime : decayTime,
+                                decayTimeMultiplier : decayTimeMultiplier});
 }
 
 function showTutorial(){
    ipcRenderer.send('showTutorial');
 }
 
-ipcRenderer.on('new-Data', function (event, args) {
+function showDataIO(){
+   ipcRenderer.send('showDataPage', {dominantMeaning : dominantMeaning,
+                                    secondaryMeaning : secondaryMeaning,
+                                            baseline : baseline,
+                                  selectionThreshold : selectionThreshold});
+}
+
+ipcRenderer.on('new-Settings', function (event, args) {
    attributeCount = args.attributeCount;
    primingMethod = args.primingMethod;
    resistanceLevel = args.resistanceLevel;
    attributeWeightRep = args.attributeWeightRep;
    attributeWeightIncrement = args.attributeWeightIncrement;
-   generateArray(args.attributeCount);
+   // weightDirstibution = args.weightDirstibution;
+   decayTime = args.decayTime;
+   decayTimeMultiplier = args.decayTimeMultiplier;
+   generateArray(attributeCount);
+   reloadAttributes();
+});
+
+ipcRenderer.on('new-Data', function (event, args) {
+   dominantMeaning = args.dominantMeaning;
+   secondaryMeaning = args.secondaryMeaning;
+   baseline = args.baseline;
+   selectionThreshold = args.selectionThreshold;
+   generateArray(attributeCount);
    reloadAttributes();
 });
 
 window.onload = function () {
    // first function to get called...
-   // default values
    generateArray(attributeCount);
    reloadAttributes();
 };
