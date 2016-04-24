@@ -16,7 +16,7 @@ class attribute {
       this.multiplier = multiplier;
    }
 
-   get probability(){
+   get liveWeight(){
       return this.calcProbability();
    }
 
@@ -25,8 +25,8 @@ class attribute {
    }
 }
 
-var dominantAttributeWeights = [];
-var secondartAttributeWeights = [];
+var dominantAttributeArray = [];
+var secondartAttributeArray = [];
 
 
 var attributeCount = 50;
@@ -45,6 +45,14 @@ var baseline = 0.74;
 var selectionThreshold = 0.6;
 
 
+function resetActivationLevels() {
+   for (var i = 0; i < attributeCount; i++) {
+      dominantAttributeArray[i].multiplier = 1.0;
+      secondartAttributeArray[i].multiplier = 1.0;
+   }
+   reloadAttributes();
+}
+
 //numNodes:int - number of nodes in each array
 //ratio: double - arr1/arr2
 function randomInit(numNodes,ratio,arr1,arr2)
@@ -59,12 +67,12 @@ function randomInit(numNodes,ratio,arr1,arr2)
 
 function generateArray(count) {
 
-   dominantAttributeWeights = [];
-   secondartAttributeWeights = [];
+   dominantAttributeArray = [];
+   secondartAttributeArray = [];
 
    for (var i = 0; i < count; i++) {
-      dominantAttributeWeights.push(i);
-      secondartAttributeWeights.push(i*2);
+      dominantAttributeArray.push(new attribute(i, 0.8));
+      secondartAttributeArray.push(new attribute(i*2, 1.0));
    }
 }
 
@@ -74,8 +82,8 @@ function reloadAttributes(){
    dominantMeaning.innerHTML = '';
    secondaryMeaning.innerHTML = '';
    for (var i = 0; i < attributeCount; i++) {
-      dominantMeaning.innerHTML +=   '<div class="w-clearfix attribute"><div class="attributeweight">'+dominantAttributeWeights[i]+'</div></div>';
-      secondaryMeaning.innerHTML +=  '<div class="w-clearfix attribute"><div class="attributeweight">'+secondartAttributeWeights[i]+'</div></div>';
+      dominantMeaning.innerHTML +=   '<div class="w-clearfix attribute"><div class="attributeweight">'+dominantAttributeArray[i].liveWeight.toFixed(3)+'</div></div>';
+      secondaryMeaning.innerHTML +=  '<div class="w-clearfix attribute"><div class="attributeweight">'+secondartAttributeArray[i].liveWeight.toFixed(3)+'</div></div>';
    }
 }
 
@@ -133,7 +141,7 @@ ipcRenderer.on('new-Data', function (event, args) {
       adjustedMeaning = 'Dominant';
    }
 
-   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline+'%';
+   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
 
    generateArray(attributeCount);
    reloadAttributes();
@@ -144,3 +152,29 @@ window.onload = function () {
    generateArray(attributeCount);
    reloadAttributes();
 };
+
+
+function primeDominant() {
+
+}
+
+function primeSecondary(){
+
+}
+
+function makeSelection(){
+
+   var adjustedBaseline;
+   var adjustedMeaning;
+   if(baseline<0.5){
+      adjustedBaseline = 100*(1-baseline);
+      adjustedMeaning = 'Secondary';
+   }else{
+      adjustedBaseline = 100*baseline;
+      adjustedMeaning = 'Dominant';
+   }
+
+   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
+
+   resetActivationLevels();
+}
