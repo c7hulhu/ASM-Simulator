@@ -43,6 +43,9 @@ var dominantMeaning = 'Air';
 var secondaryMeaning = 'Heir';
 var baseline = 0.74;
 var selectionThreshold = 0.6;
+var numSampledAttributes = 19;
+
+var activatedAttributeIndices = [];
 
 
 function resetActivationLevels() {
@@ -177,10 +180,34 @@ window.onload = function () {
 
 
 function primeDominant() {
-
+  //numSampledAttributes is number of attributes to prime
+  //attributeCount: number of attributes in the arrays
+  var toPrime=numSampledAttributes;
+  var randPlace=0;
+  while(toPrime>0) {
+    randPlace=((Math.random()*1000)|0)%attributeCount;
+    if(primingMethod=="word")        dominantAttributeArray[randPlace].multiplier+=.3;
+    else if(primingMethod=="phrase") dominantAttributeArray[randPlace].multiplier+=.4;
+    else                             dominantAttributeArray[randPlace].multiplier+=.5;
+    toPrime--;
+    activatedAttributeIndices.push(randPlace);
+  }
 }
 
 function primeSecondary(){
+  //numSampledAttributes is number of attributes to prime
+  //attributeCount: number of attributes in the arrays
+  var toPrime=numSampledAttributes;
+  alert("toPrime: "+toPrime);
+  var randPlace=0;
+  while(toPrime>0) {
+    randPlace=((Math.random()*1000)|0)%attributeCount;
+    if(primingMethod=="word")        secondartAttributeArray[randPlace].multiplier+=.3;
+    else if(primingMethod=="phrase") secondartAttributeArray[randPlace].multiplier+=.4;
+    else                             secondartAttributeArray[randPlace].multiplier+=.5;
+    toPrime--;
+    activatedAttributeIndices.push(randPlace);
+  }
 
 }
 
