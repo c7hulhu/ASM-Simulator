@@ -2,16 +2,32 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 
 // var attribute = {
-//   multiplier        : 1.0;    //increases probability when higher - minimum is 1
-//   weight            : 0.5;    //increases when primed; affects probability
-//   probability       : multiplier*weight        //determined by multiplier and weight together
-//   primeSetting      :         //how much weight increases when prime() is called
-//   multiplierSetting :         //how much multiplier increases when prime() is called
-// }
+//   multiplier : 1.0,    //increases probability when higher - minimum is 1
+//   weight : 0.5,    //increases when primed; affects probability
+// };
+//
+// function attribute
+//
+// attribute.probability() = this.multiplier * this.weight;
 
+class attribute {
+   constructor(weight, multiplier){
+      this.weight = weight;
+      this.multiplier = multiplier;
+   }
+
+   get probability(){
+      return this.calcProbability();
+   }
+
+   calcProbability() {
+      return this.weight * this.multiplier;
+   }
+}
 
 var dominantAttributeWeights = [];
 var secondartAttributeWeights = [];
+
 
 var attributeCount = 50;
 var primingMethod = 'Word';
@@ -22,10 +38,15 @@ var attributeWeightIncrement = 0.354;
 var decayTime = 5;
 var decayTimeMultiplier = 20;
 
+
+
 var dominantMeaning = 'Air';
 var secondaryMeaning = 'Heir';
 var baseline = 0.74;
 var selectionThreshold = 0.6;
+
+
+
 
 function generateArray(count) {
 

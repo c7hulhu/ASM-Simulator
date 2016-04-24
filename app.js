@@ -30,7 +30,7 @@ app.on('ready', function() {
      width: 1400,
      height: 900,
      minWidth: 1000,
-     minHeight: 750,
+     minHeight: 800,
     //fullscreen: true,
     title: "ASM Simulator",
     center: true
@@ -54,8 +54,9 @@ app.on('ready', function() {
   // Make the Parameters Page
   parametersWindow = new BrowserWindow({
      width: 420,
-     height: 850,
+     height: 830,
      minWidth: 420,
+     minHeight: 830,
      //resizable: false,
      show: false,
      alwaysOnTop: true,
@@ -71,6 +72,7 @@ app.on('ready', function() {
      width: 420,
      height: 550,
      minWidth: 420,
+     minHeight: 550,
      //resizable: false,
      show: false,
      alwaysOnTop: true,
@@ -84,7 +86,7 @@ app.on('ready', function() {
   // Make the tutorial Page
   tutorialWindow = new BrowserWindow({
      width: 1000,
-     height: 750,
+     height: 800,
     //fullscreen: true,
     title: "Tutorial",
     center: true,

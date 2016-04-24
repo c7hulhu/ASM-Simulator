@@ -12,7 +12,6 @@ ipcRenderer.on('old-Data', function(event, args){
    document.getElementById('selectionThreshold').value = args.selectionThreshold;
 });
 
-
 function saveData(){
    var newData = {
       dominantMeaning : document.getElementById('dominantMeaning').value,
