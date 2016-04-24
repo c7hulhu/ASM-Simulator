@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>Parameters</title>
+   <meta property="og:title" content="Parameters">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" type="text/css" href="css/normalize.css">
+   <link rel="stylesheet" type="text/css" href="css/webflow.css">
+   <link rel="stylesheet" type="text/css" href="css/ASM.css">
+
+   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+   <script>
+   WebFont.load({
+      google: {
+         families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Montserrat:400,700"]
+      }
+   });
+   </script>
+   <script type="text/javascript" src="js/modernizr.js"></script>
+   <script type="text/javascript" src="settings.js"></script>
+
+</head>
+<body class="background">
+   <div class="settingsdiv">
+     <div class="w-container">
+       <h2 class="header">Simulation Parameters</h2>
+     </div>
+     <div class="w-container">
+       <div class="w-form formwrapper">
+         <form id="wf-form-parametersForm" name="wf-form-parametersForm" data-name="parametersForm" method="get" class="w-clearfix form">
+           <label for="attributeCount" class="parametertitle">Number of attributes per meaning/spelling:</label>
+           <input id="attributeCount" type="text" placeholder="Enter Number of Attributes" name="attributeCount" data-name="attributeCount" required="required" class="w-input textfield">
+           <label for="resistanceLevel" class="parametertitle">Priming Method:</label>
+           <div class="w-radio w-clearfix">
+             <input id="Word" type="radio" name="primingMethod" value="Word" data-name="primingMethod" required="required" class="w-radio-input">
+             <label for="Word" class="w-form-label optiontitle">Word</label>
+           </div>
+           <div class="w-radio w-clearfix">
+             <input id="Sentence" type="radio" name="primingMethod" value="Sentence" data-name="primingMethod" class="w-radio-input">
+             <label for="Sentence" class="w-form-label optiontitle">Sentence</label>
+           </div>
+           <div class="w-radio w-clearfix">
+             <input id="Picture" type="radio" name="primingMethod" value="Picture" data-name="primingMethod" class="w-radio-input">
+             <label for="Picture" class="w-form-label optiontitle">Picture</label>
+           </div>
+           <label for="resistanceLevel-2" class="parametertitle">Context switch resistance level:</label>
+           <input id="resistanceLevel-2" type="text" placeholder="Enter a Number Between 0 and 100" name="resistanceLevel" data-name="resistanceLevel" required="required" class="w-input textfield">
+           <label for="field" class="parametertitle">Attribute weight representation:</label>
+           <div class="w-radio w-clearfix">
+             <input id="Decimals" type="radio" name="attributeWeight" value="Decimals" data-name="attributeWeight" required="required" class="w-radio-input">
+             <label for="Decimals" class="w-form-label optiontitle">Decimals</label>
+           </div>
+           <div class="w-radio w-clearfix">
+             <input id="Percentage" type="radio" name="attributeWeight" value="Percentage" data-name="attributeWeight" class="w-radio-input">
+             <label for="Percentage" class="w-form-label optiontitle">Percentage</label>
+           </div>
+           <label for="attributeWeightIncrement-2" class="parametertitle">Attribute weight increment:</label>
+           <input id="attributeWeightIncrement-2" type="text" placeholder="Enter a Decimal Less Than 1" name="attributeWeightIncrement" required="required" data-name="attributeWeightIncrement" class="w-input textfield">
+           <label for="field-2" class="parametertitle">Baseline attribute weight distribution:</label>
+           <div class="w-radio w-clearfix">
+             <input id="Randomized" type="radio" name="weightDirstibution" value="Randomized" data-name="weightDirstibution" required="required" class="w-radio-input">
+             <label for="Randomized" class="w-form-label optiontitle">Randomized</label>
+           </div>
+           <div class="w-radio w-clearfix">
+             <input id="EqualRatio" type="radio" name="weightDirstibution" value="EqualRatio" data-name="weightDirstibution" class="w-radio-input">
+             <label for="EqualRatio" class="w-form-label optiontitle">Equal ratio</label>
+           </div>
+           <button id="save" class="w-button primingbutton formbutton" onClick="saveParameters();">Submit</button>
+         </form>
+
+         <div class="w-form-done">
+           <p>Thank you! Your submission has been received!</p>
+         </div>
+         <div class="w-form-fail">
+           <p>Oops! Something went wrong while submitting the form</p>
+         </div>
+
+       </div>
+     </div>
+   </div>
+
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+   <script type="text/javascript" src="js/webflow.js"></script>
+   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+</body>
+</html>
