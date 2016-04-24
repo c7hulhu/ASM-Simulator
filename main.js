@@ -15,7 +15,7 @@ var decayTimeMultiplier = 20;
 var dominantMeaning = 'Air';
 var secondaryMeaning = 'Heir';
 var baseline = 0.74;
-var selectionThreshold = 0.611;
+var selectionThreshold = 0.6;
 
 function generateArray(count) {
 
