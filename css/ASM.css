@@ -281,6 +281,24 @@
   overflow: scroll;
 }
 
+.tutorialheading {
+  font-family: Montserrat, sans-serif;
+  color: #fff;
+  font-weight: 400;
+}
+
+.tutorialcontainer {
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+}
+
+.tutorialparagraph {
+  font-family: Ubuntu, Helvetica, sans-serif;
+  color: #fff;
+  font-weight: 300;
+}
+
 @media (max-width: 991px) {
   .primingbuttoncontainer {
     -webkit-box-pack: justify;

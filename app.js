@@ -10,8 +10,7 @@ const ipcMain = require('electron').ipcMain;
 var mainWindow = null;
 
 var parametersWindow = null;
-
-var numAttributes = 50;
+var tutorialWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -45,6 +44,9 @@ app.on('ready', function() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
+    tutorialWindow.destroy();
+    parametersWindow.destroy();
+    app.quit();
   });
 
   // Make the Parameters Page
@@ -57,26 +59,45 @@ app.on('ready', function() {
      alwaysOnTop: true,
      title: "Simulation Parameters",
      center: true,
-     frame: false
   });
 
   parametersWindow.loadURL('file://' + __dirname + '/settings.html');
 
 
+  // Make the tutorial Page
+  tutorialWindow = new BrowserWindow({
+     width: 1000,
+     height: 750,
+    //fullscreen: true,
+    title: "Tutorial",
+    center: true,
+    show: false
+  });
+
+   tutorialWindow.loadURL('file://' + __dirname + '/tutorial.html');
+
+
   // event coming from main.html buttom press
-  ipcMain.on('showSettings', function() {
+  ipcMain.on('showSettings', function(event, args) {
     parametersWindow.once('show', function() {
-       parametersWindow.webContents.send('old-Data', {
-          attributeCount : numAttributes
-       });
+       parametersWindow.webContents.send('old-Data', args);
     });
     parametersWindow.show();
   });
 
+  ipcMain.on('showTutorial', function() {
+     tutorialWindow.show();
+  });
+
   ipcMain.on('hideSettings', function(event, args) {
     parametersWindow.hide();
-    numAttributes = args.attributeCount;
-    mainWindow.webContents.send('new-Data', args);
+    if(args){
+      mainWindow.webContents.send('new-Data', args);
+   }
+  });
+
+  ipcMain.on('hideTutorial', function(event, args) {
+     tutorialWindow.hide();
   });
 
 });
