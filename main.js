@@ -57,14 +57,18 @@ function resetActivationLevels() {
 //ratio: double - secondaryArray weights/dominantArray weights
 function randomizeWeights(count, ratio, dominantArray, secondaryArray)
 {
+      var ratio2=1-ratio;
+      var realRatio=0;
+      if(ratio>ratio2) realRatio=ratio2/ratio;
+      else realRatio=ratio/ratio2;
       for(i = 0;i < count; i++) {
         temp=Math.random();  // between 0 and 1
 
         if (ratio > 0.5) {
            dominantArray[i].weight=temp;
-           secondaryArray[i].weight=temp*ratio;
+           secondaryArray[i].weight=temp*realRatio;
         }else{
-           dominantArray[i].weight=temp*ratio;
+           dominantArray[i].weight=temp*realRatio;
            secondaryArray[i].weight=temp;
         }
      }
