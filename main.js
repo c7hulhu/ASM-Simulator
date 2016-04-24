@@ -1,5 +1,15 @@
 const ipcRenderer = require('electron').ipcRenderer;
 
+
+// var attribute = {
+//   multiplier        : 1.0;    //increases probability when higher - minimum is 1
+//   weight            : 0.5;    //increases when primed; affects probability
+//   probability       : multiplier*weight        //determined by multiplier and weight together
+//   primeSetting      :         //how much weight increases when prime() is called
+//   multiplierSetting :         //how much multiplier increases when prime() is called
+// }
+
+
 var dominantAttributeWeights = [];
 var secondartAttributeWeights = [];
 
@@ -91,6 +101,22 @@ ipcRenderer.on('new-Data', function (event, args) {
    secondaryMeaning = args.secondaryMeaning;
    baseline = args.baseline;
    selectionThreshold = args.selectionThreshold;
+
+   document.getElementById('dominantMeaningTicker').innerHTML = 'Dominant Meaning/Spelling: &nbsp;'+dominantMeaning;
+   document.getElementById('secondaryMeaningTicker').innerHTML = 'Secondary Meaning/Spelling: &nbsp;'+secondaryMeaning;
+
+   var adjustedBaseline;
+   var adjustedMeaning;
+   if(baseline<0.5){
+      adjustedBaseline = 100*(1-baseline);
+      adjustedMeaning = 'Secondary';
+   }else{
+      adjustedBaseline = 100*baseline;
+      adjustedMeaning = 'Dominant';
+   }
+
+   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline+'%';
+
    generateArray(attributeCount);
    reloadAttributes();
 });
