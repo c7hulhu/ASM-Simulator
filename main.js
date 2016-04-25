@@ -37,7 +37,7 @@ var attributeWeightIncrement = 0.354;
 // var weightDirstibution = 'Randomized';
 var decayTime = 5;
 var decayTimeMultiplier = 20;
-
+var numSampledAttributes = 19;
 
 var dominantMeaning = 'Air';
 var secondaryMeaning = 'Heir';
@@ -72,17 +72,6 @@ function randomizeWeights(count, ratio, dominantArray, secondaryArray)
            secondaryArray[i].weight=temp;
         }
      }
-
-
-   var dominantSum = 0;
-   var secondarySum = 0;
-   for (var i = 0; i < count; i++) {
-      dominantSum += dominantArray[i].weight;
-      secondarySum += secondaryArray[i].weight;
-   }
-
-   var stribg = "Dominant Sum:"+dominantSum+" Secondary Sum:"+secondarySum+" Divided: "+dominantSum/secondarySum;
-   alert(stribg);
 }
 
 function generateArray(count) {
@@ -117,7 +106,8 @@ function showParameters(){
                            attributeWeightIncrement : attributeWeightIncrement,
                                  // weightDirstibution : weightDirstibution,
                                           decayTime : decayTime,
-                                decayTimeMultiplier : decayTimeMultiplier});
+                                decayTimeMultiplier : decayTimeMultiplier,
+                               numSampledAttributes : numSampledAttributes});
 }
 
 function showTutorial(){
@@ -140,6 +130,7 @@ ipcRenderer.on('new-Settings', function (event, args) {
    // weightDirstibution = args.weightDirstibution;
    decayTime = args.decayTime;
    decayTimeMultiplier = args.decayTimeMultiplier;
+   numSampledAttributes = args.numSampledAttributes;
    generateArray(attributeCount);
    reloadAttributes();
 });
@@ -197,6 +188,11 @@ function makeSelection(){
    }
 
    document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
+
+   for (var i = 0; i < count; i++) {
+      dominantAttributeArray[i].weight = dominantAttributeArray[i].liveWeight;
+      secondartAttributeArray[i].weight = secondartAttributeArray[i].liveWeight;
+   }
 
    resetActivationLevels();
 }

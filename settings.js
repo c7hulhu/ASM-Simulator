@@ -7,7 +7,8 @@ function saveParameters(){
       resistanceLevel: document.getElementById('resistanceLevel').value,
       attributeWeightIncrement: document.getElementById('attributeWeightIncrement').value,
       decayTime : document.getElementById('decayTime').value,
-      decayTimeMultiplier : document.getElementById('decayTimeMultiplier').value
+      decayTimeMultiplier : document.getElementById('decayTimeMultiplier').value,
+      numSampledAttributes : document.getElementById('numSampledAttributes').value
    };
 
    var radios = document.getElementsByName('primingMethod');
@@ -47,5 +48,6 @@ ipcRenderer.on('old-Settings', function(event, args){
    document.getElementById('attributeWeightIncrement').value = args.attributeWeightIncrement;
    // document.getElementById(args.weightDirstibution).checked = true;
    document.getElementById('decayTime').value = args.decayTime;
-   document.getElementById('decayTimeMultiplier').value = args.decayTimeMultiplier;
+   document.getElementById('decayTimeMultiplier').value = args.decayTimeMultiplier
+   document.getElementById('numSampledAttributes').value = args.numSampledAttributes;
 });
