@@ -1,19 +1,10 @@
 const ipcRenderer = require('electron').ipcRenderer;
 
-
-// var attribute = {
-//   multiplier : 1.0,    //increases probability when higher - minimum is 1
-//   weight : 0.5,    //increases when primed; affects probability
-// };
-//
-// function attribute
-//
-// attribute.probability() = this.multiplier * this.weight;
-
 class attribute {
-   constructor(weight = 0.5, multiplier = 1.0){
+   constructor(weight = 0.5, multiplier = 1.0, borderColor = '#FFFFFF'){
       this.weight = weight;
       this.multiplier = multiplier;
+      this.borderColor = borderColor;
    }
 
    get liveWeight(){
@@ -26,32 +17,33 @@ class attribute {
 }
 
 var dominantAttributeArray = [];
-var secondartAttributeArray = [];
+var secondaryAttributeArray = [];
 
 
 var attributeCount = 50;
 var primingMethod = 'Word';
-var resistanceLevel = 80;
+var resistanceLevel = 100;
 var attributeWeightRep = 'Decimals';
-var attributeWeightIncrement = 0.354;
+var attributeWeightIncrement = 0.3;
 // var weightDirstibution = 'Randomized';
 var decayTime = 5;
 var decayTimeMultiplier = 20;
 var numSampledAttributes = 19;
 
-var dominantMeaning = 'Air';
-var secondaryMeaning = 'Heir';
+var dominantMeaning = 'Right';
+var secondaryMeaning = 'Write';
 var baseline = 0.74;
 var selectionThreshold = 0.6;
 var numSampledAttributes = 19;
 
-var activatedAttributeIndices = [];
-
+// var activatedAttributeIndices = [];
+var dominantActivatedAttributes = [];
+var secondaryActivatedAttributes = [];
 
 function resetActivationLevels() {
    for (var i = 0; i < attributeCount; i++) {
       dominantAttributeArray[i].multiplier = 1.0;
-      secondartAttributeArray[i].multiplier = 1.0;
+      secondaryAttributeArray[i].multiplier = 1.0;
    }
    reloadAttributes();
 }
@@ -79,15 +71,20 @@ function randomizeWeights(count, ratio, dominantArray, secondaryArray)
 
 function generateArray(count) {
 
+   document.getElementById('primingSequence2').style.display = 'none';
+   document.getElementById('primingSequence').innerHTML = 'Priming Sequence: [press one of the priming buttons below]&nbsp;';
+   document.getElementById('primingSequence2').innerHTML = 'Priming Sequence: ';
+   document.getElementById('primingSequence').style.display = 'block';
+
    dominantAttributeArray = [];
-   secondartAttributeArray = [];
+   secondaryAttributeArray = [];
 
    for (var i = 0; i < count; i++) {
       dominantAttributeArray.push(new attribute());
-      secondartAttributeArray.push(new attribute());
+      secondaryAttributeArray.push(new attribute());
    }
 
-   randomizeWeights(count, baseline, dominantAttributeArray, secondartAttributeArray);
+   randomizeWeights(count, baseline, dominantAttributeArray, secondaryAttributeArray);
 }
 
 function reloadAttributes(){
@@ -95,10 +92,37 @@ function reloadAttributes(){
    var secondaryMeaning = document.getElementById('secondaryMeaning');
    dominantMeaning.innerHTML = '';
    secondaryMeaning.innerHTML = '';
+
+   var dominantAdjustedLiveWeight = 1;
+   var secondaryAdjustedLiveWeight = 1;
+
    for (var i = 0; i < attributeCount; i++) {
-      dominantMeaning.innerHTML +=   '<div class="w-clearfix attribute"><div class="attributeweight">'+dominantAttributeArray[i].liveWeight.toFixed(3)+'</div></div>';
-      secondaryMeaning.innerHTML +=  '<div class="w-clearfix attribute"><div class="attributeweight">'+secondartAttributeArray[i].liveWeight.toFixed(3)+'</div></div>';
+
+      if(dominantAttributeArray[i].borderColor == "#FFFF00"){
+         startDecay(dominantAttributeArray[i]);
+      }
+
+      if([i].borderColor == "#FFFF00"){
+         startDecay(secondaryAttributeArray[i]);
+      }
+
+      dominantAdjustedLiveWeight = dominantAttributeArray[i].liveWeight;
+      if(dominantAttributeArray[i].liveWeight>1){
+         dominantAdjustedLiveWeight = 1;
+      }
+
+      secondaryAdjustedLiveWeight = secondaryAttributeArray[i].liveWeight;
+      if(secondaryAttributeArray[i].liveWeight>1){
+         secondaryAdjustedLiveWeight = 1;
+      }
+
+      dominantMeaning.innerHTML +=   '<div class="w-clearfix attribute"><div class="attributeweight">'+dominantAdjustedLiveWeight.toFixed(3)+'</div></div>';
+      secondaryMeaning.innerHTML +=  '<div class="w-clearfix attribute"><div class="attributeweight">'+secondaryAdjustedLiveWeight.toFixed(3)+'</div></div>';
    }
+}
+
+function startDecay(attribute) {
+
 }
 
 function showParameters(){
@@ -138,6 +162,29 @@ ipcRenderer.on('new-Settings', function (event, args) {
    reloadAttributes();
 });
 
+function calculateCurrentSelection(){
+   var totalDominant = 0;
+   var totalSecondary = 0;
+
+   for (var i = 0; i < attributeCount; i++) {
+      totalDominant += dominantAttributeArray[i].weight;
+      totalSecondary += secondaryAttributeArray[i].weight;
+   }
+
+   var currentBaseline = totalDominant/totalSecondary;
+   var adjustedMeaning;
+
+   if(currentBaseline > selectionThreshold){
+      adjustedMeaning = 'Dominant';
+      adjustedBaseline = 100 * currentBaseline
+   }else{
+      adjustedMeaning = 'Secondary';
+      adjustedBaseline = 100*(1-currentBaseline);
+   }
+
+   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
+}
+
 ipcRenderer.on('new-Data', function (event, args) {
    dominantMeaning = args.dominantMeaning;
    secondaryMeaning = args.secondaryMeaning;
@@ -147,17 +194,19 @@ ipcRenderer.on('new-Data', function (event, args) {
    document.getElementById('dominantMeaningTicker').innerHTML = 'Dominant Meaning/Spelling: &nbsp;'+dominantMeaning;
    document.getElementById('secondaryMeaningTicker').innerHTML = 'Secondary Meaning/Spelling: &nbsp;'+secondaryMeaning;
 
-   var adjustedBaseline;
-   var adjustedMeaning;
-   if(baseline<0.5){
-      adjustedBaseline = 100*(1-baseline);
-      adjustedMeaning = 'Secondary';
-   }else{
-      adjustedBaseline = 100*baseline;
-      adjustedMeaning = 'Dominant';
-   }
+   // var adjustedBaseline;
+   // var adjustedMeaning;
+   // if(baseline<0.5){
+   //    adjustedBaseline = 100*(1-baseline);
+   //    adjustedMeaning = 'Secondary';
+   // }else{
+   //    adjustedBaseline = 100*baseline;
+   //    adjustedMeaning = 'Dominant';
+   // }
+   //
+   // document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
 
-   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
+   calculateCurrentSelection();
 
    generateArray(attributeCount);
    reloadAttributes();
@@ -171,55 +220,160 @@ window.onload = function () {
 
 
 function primeDominant() {
-  //numSampledAttributes is number of attributes to prime
-  //attributeCount: number of attributes in the arrays
-  var toPrime=numSampledAttributes;
-  var randPlace=0;
-  while(toPrime>0) {
-    randPlace=((Math.random()*1000)|0)%attributeCount;
-    if(primingMethod=="word")        dominantAttributeArray[randPlace].multiplier+=.3;
-    else if(primingMethod=="phrase") dominantAttributeArray[randPlace].multiplier+=.4;
-    else                             dominantAttributeArray[randPlace].multiplier+=.5;
-    toPrime--;
-    activatedAttributeIndices.push(randPlace);
+
+   document.getElementById('primingSequence').style.display = 'none';
+   document.getElementById('primingSequence2').innerHTML += 'D ';
+   document.getElementById('primingSequence2').style.display = 'block';
+
+  var toPrimeCount = numSampledAttributes;
+  var initialToPrime = 0;
+  var finalToPrime = 0;
+
+  if(primingMethod == 'Word'){
+     initialToPrime = 4;
+  }else if(primingMethod == 'Sentence'){
+     initialToPrime = 6;
+  }else{
+     initialToPrime = 8;
   }
+
+  finalToPrime = toPrimeCount - initialToPrime;
+
+  while (initialToPrime > 0) {
+     randPlace=((Math.random()*1000)|0)%attributeCount;
+     if (primingMethod=='Word'){
+        dominantAttributeArray[randPlace].multiplier+=.3;
+        dominantAttributeArray[randPlace].borderColor = "#FFFF00"
+     } else if(primingMethod=='Sentence') {
+        dominantAttributeArray[randPlace].multiplier+=.4;
+        dominantAttributeArray[randPlace].borderColor = "#FFFF00"
+     } else {
+        dominantAttributeArray[randPlace].multiplier+=.5;
+        dominantAttributeArray[randPlace].borderColor = "#FFFF00"
+     }
+
+     dominantActivatedAttributes.push(randPlace);
+
+     reloadAttributes();
+
+     initialToPrime--;
+  }
+  finishPriming(finalToPrime, 1);
 }
 
 function primeSecondary(){
-  //numSampledAttributes is number of attributes to prime
-  //attributeCount: number of attributes in the arrays
-  var toPrime=numSampledAttributes;
-  alert("toPrime: "+toPrime);
-  var randPlace=0;
-  while(toPrime>0) {
-    randPlace=((Math.random()*1000)|0)%attributeCount;
-    if(primingMethod=="word")        secondartAttributeArray[randPlace].multiplier+=.3;
-    else if(primingMethod=="phrase") secondartAttributeArray[randPlace].multiplier+=.4;
-    else                             secondartAttributeArray[randPlace].multiplier+=.5;
-    toPrime--;
-    activatedAttributeIndices.push(randPlace);
-  }
 
+   document.getElementById('primingSequence').style.display = 'none';
+   document.getElementById('primingSequence2').innerHTML += 'S ';
+   document.getElementById('primingSequence2').style.display = 'block';
+
+     var toPrimeCount = numSampledAttributes;
+     var initialToPrime = 0;
+     var finalToPrime = 0;
+
+     if(primingMethod == 'Word'){
+        initialToPrime = 4;
+     }else if(primingMethod == 'Sentence'){
+        initialToPrime = 6;
+     }else{
+        initialToPrime = 8;
+     }
+
+     finalToPrime = toPrimeCount - initialToPrime;
+
+     while (initialToPrime > 0) {
+        randPlace=((Math.random()*1000)|0)%attributeCount;
+        if (primingMethod=='Word'){
+           secondaryAttributeArray[randPlace].multiplier+=.3;
+           dominantAttributeArray[randPlace].borderColor = "#FFFF00"
+        } else if(primingMethod=='Sentence') {
+           secondaryAttributeArray[randPlace].multiplier+=.4;
+           dominantAttributeArray[randPlace].borderColor = "#FFFF00"
+        } else {
+           secondaryAttributeArray[randPlace].multiplier+=.5;
+           dominantAttributeArray[randPlace].borderColor = "#FFFF00"
+        }
+
+        secondaryActivatedAttributes.push(randPlace);
+
+        reloadAttributes();
+
+        initialToPrime--;
+     }
+     finishPriming(finalToPrime, 2);
+}
+
+function finishPriming(remainingCount, id){
+   while (remainingCount > 0) {
+
+      randPlace=((Math.random()*1000)|0)%attributeCount;
+
+      if(Math.random() < resistanceLevel/100){
+         // select from current array
+         if(id == 1){
+            dominantAttributeArray[randPlace].multiplier += 0.2;
+         }else{
+            secondaryAttributeArray[randPlace].multiplier += 0.2;
+         }
+      }else{
+         // select from the other array
+         if(id == 1){
+            secondaryAttributeArray[randPlace].multiplier += 0.2;
+         }else{
+            dominantAttributeArray[randPlace].multiplier += 0.2;
+         }
+      }
+
+      reloadAttributes();
+
+      remainingCount--;
+   }
 }
 
 function makeSelection(){
 
-   var adjustedBaseline;
-   var adjustedMeaning;
-   if(baseline<0.5){
-      adjustedBaseline = 100*(1-baseline);
-      adjustedMeaning = 'Secondary';
+   var toSampleCount = numSampledAttributes;
+
+   var dominantSum = 0;
+   var secondarySum = 0;
+
+   var di = [];
+   var si = [];
+
+   while (toSampleCount > 0) {
+      randPlace=((Math.random()*1000)|0)%attributeCount;
+
+      if(Math.random() < 0.5){
+         // dominantAttributeArray[randPlace].weight += attributeWeightIncrement;
+         dominantSum += dominantAttributeArray[randPlace].weight;
+         di.push(randPlace);
+      }else{
+         // secondaryAttributeArray[randPlace].weight += attributeWeightIncrement;
+         secondarySum += secondaryAttributeArray[randPlace].weight;
+         si.push(randPlace);
+      }
+
+      toSampleCount--;
+   }
+
+
+   if(dominantSum > secondarySum){
+      alert("dominant wins!");
+      for (var i = 0; i < numSampledAttributes/2; i++) {
+         dominantAttributeArray[di[i]].weight += attributeWeightIncrement;
+      }
    }else{
-      adjustedBaseline = 100*baseline;
-      adjustedMeaning = 'Dominant';
+      alert("secondary wins!");
+      for (var i = 0; i < numSampledAttributes/2; i++) {
+         secondaryAttributeArray[si[i]].weight += attributeWeightIncrement;
+      }
    }
 
-   document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
 
-   for (var i = 0; i < count; i++) {
-      dominantAttributeArray[i].weight = dominantAttributeArray[i].liveWeight;
-      secondartAttributeArray[i].weight = secondartAttributeArray[i].liveWeight;
-   }
+
+   calculateCurrentSelection();
+
+
 
    resetActivationLevels();
 }

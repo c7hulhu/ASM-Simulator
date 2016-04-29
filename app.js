@@ -54,9 +54,9 @@ app.on('ready', function() {
   // Make the Parameters Page
   parametersWindow = new BrowserWindow({
      width: 420,
-     height: 830,
+     height: 850,
      minWidth: 420,
-     minHeight: 830,
+     minHeight: 850,
      //resizable: false,
      show: false,
      alwaysOnTop: true,

@@ -299,6 +299,16 @@
   padding-left: 15px;
 }
 
+.radiocontainer {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
 .tutorialparagraph {
   font-family: Ubuntu, Helvetica, sans-serif;
   color: #fff;

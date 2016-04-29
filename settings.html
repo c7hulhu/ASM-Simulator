@@ -23,82 +23,87 @@
 </head>
 <body class="background">
    <div class="settingsdiv">
-     <div class="w-container">
-       <h2 class="header">Simulation Parameters</h2>
-     </div>
-     <div class="w-container">
-       <div class="w-form formwrapper">
-         <form id="wf-form-parametersForm" name="wf-form-parametersForm" data-name="parametersForm" method="get" class="w-clearfix form">
+      <div class="w-container">
+         <h2 class="header">Simulation Parameters</h2>
+      </div>
+      <div class="w-container">
+         <div class="w-form formwrapper">
+            <form id="wf-form-parametersForm" name="wf-form-parametersForm" data-name="parametersForm" method="get" class="w-clearfix form">
 
-           <label for="attributeCount" class="parametertitle">Number of attributes per meaning/spelling:</label>
-           <input id="attributeCount" type="text" placeholder="Enter Number of Attributes" name="attributeCount" data-name="attributeCount" required="required" class="w-input textfield">
+               <label for="attributeCount" class="parametertitle">Number of attributes per meaning/spelling:</label>
+               <input id="attributeCount" type="text" placeholder="Enter Number of Attributes" name="attributeCount" data-name="attributeCount" required="required" class="w-input textfield">
 
-           <label for="numSampledAttributes" class="parametertitle">Number of attributes per meaning/spelling:</label>
-           <input id="numSampledAttributes" type="text" placeholder="Enter Number of Attributes" name="numSampledAttributes" data-name="numSampledAttributes" required="required" class="w-input textfield">
+               <label for="numSampledAttributes" class="parametertitle">Number of sampled attributes:</label>
+               <input id="numSampledAttributes" type="text" placeholder="Enter a Number Greater Than 8" name="numSampledAttributes" data-name="numSampledAttributes" required="required" class="w-input textfield">
 
 
-           <label class="parametertitle">Priming Method:</label>
-           <div class="w-radio w-clearfix">
-             <input id="Word" type="radio" name="primingMethod" value="Word" data-name="primingMethod" required="required" class="w-radio-input">
-             <label for="Word" class="w-form-label optiontitle">Word</label>
-           </div>
-           <div class="w-radio w-clearfix">
-             <input id="Sentence" type="radio" name="primingMethod" value="Sentence" data-name="primingMethod" class="w-radio-input">
-             <label for="Sentence" class="w-form-label optiontitle">Sentence</label>
-           </div>
-           <div class="w-radio w-clearfix">
-             <input id="Picture" type="radio" name="primingMethod" value="Picture" data-name="primingMethod" class="w-radio-input">
-             <label for="Picture" class="w-form-label optiontitle">Picture</label>
-           </div>
+               <label class="parametertitle">Priming Method:</label>
+               <div class="radiocontainer">
+                  <div class="w-radio w-clearfix">
+                     <input id="Word" type="radio" name="primingMethod" value="Word" data-name="primingMethod" required="required" class="w-radio-input">
+                     <label for="Word" class="w-form-label optiontitle">Word</label>
+                  </div>
+                  <div class="w-radio w-clearfix">
+                     <input id="Sentence" type="radio" name="primingMethod" value="Sentence" data-name="primingMethod" class="w-radio-input">
+                     <label for="Sentence" class="w-form-label optiontitle">Sentence</label>
+                  </div>
+                  <div class="w-radio w-clearfix">
+                     <input id="Picture" type="radio" name="primingMethod" value="Picture" data-name="primingMethod" class="w-radio-input">
+                     <label for="Picture" class="w-form-label optiontitle">Picture</label>
+                  </div>
+               </div>
 
-           <label class="parametertitle">Context switch resistance level:</label>
-           <input id="resistanceLevel" type="text" placeholder="Enter a Number Between 0 and 100" name="resistanceLevel" data-name="resistanceLevel" required="required" class="w-input textfield">
+               <label class="parametertitle">Context switch resistance level:</label>
+               <input id="resistanceLevel" type="text" placeholder="Enter a Number Between 0 and 100" name="resistanceLevel" data-name="resistanceLevel" required="required" class="w-input textfield">
 
-           <label class="parametertitle">Attribute weight representation:</label>
-           <div class="w-radio w-clearfix">
-             <input id="Decimals" type="radio" name="attributeWeight" value="Decimals" data-name="attributeWeight" required="required" class="w-radio-input">
-             <label for="Decimals" class="w-form-label optiontitle">Decimals</label>
-           </div>
-           <div class="w-radio w-clearfix">
-             <input id="Percentage" type="radio" name="attributeWeight" value="Percentage" data-name="attributeWeight" class="w-radio-input">
-             <label for="Percentage" class="w-form-label optiontitle">Percentage</label>
-           </div>
+               <label class="parametertitle">Attribute weight representation:</label>
+               <div class="radiocontainer">
 
-           <label class="parametertitle">Attribute weight increment:</label>
-           <input id="attributeWeightIncrement" type="text" placeholder="Enter a Decimal Less Than 1" name="attributeWeightIncrement" required="required" data-name="attributeWeightIncrement" class="w-input textfield">
+                  <div class="w-radio w-clearfix">
+                     <input id="Decimals" type="radio" name="attributeWeight" value="Decimals" data-name="attributeWeight" required="required" class="w-radio-input">
+                     <label for="Decimals" class="w-form-label optiontitle">Decimals</label>
+                  </div>
+                  <div class="w-radio w-clearfix">
+                     <input id="Percentage" type="radio" name="attributeWeight" value="Percentage" data-name="attributeWeight" class="w-radio-input">
+                     <label for="Percentage" class="w-form-label optiontitle">Percentage</label>
+                  </div>
+               </div>
 
-           <!-- <label class="parametertitle">Baseline attribute weight distribution:</label>
-           <div class="w-radio w-clearfix">
-             <input id="Randomized" type="radio" name="weightDirstibution" value="Randomized" data-name="weightDirstibution" required="required" class="w-radio-input">
-             <label for="Randomized" class="w-form-label optiontitle">Randomized</label>
-           </div>
-           <div class="w-radio w-clearfix">
-             <input id="EqualRatio" type="radio" name="weightDirstibution" value="EqualRatio" data-name="weightDirstibution" class="w-radio-input">
-             <label for="EqualRatio" class="w-form-label optiontitle">Equal ratio</label>
-           </div> -->
+               <label class="parametertitle">Attribute weight increment:</label>
+               <input id="attributeWeightIncrement" type="text" placeholder="Enter a Decimal Less Than 1" name="attributeWeightIncrement" required="required" data-name="attributeWeightIncrement" class="w-input textfield">
 
-           <label class="parametertitle">Activation Decay in milliseconds:</label>
-           <input id="decayTime" type="text" placeholder="Enter the Activation Decay Time" name="decayTime" required="required" data-name="decayTime" class="w-input textfield">
+               <!-- <label class="parametertitle">Baseline attribute weight distribution:</label>
+               <div class="w-radio w-clearfix">
+               <input id="Randomized" type="radio" name="weightDirstibution" value="Randomized" data-name="weightDirstibution" required="required" class="w-radio-input">
+               <label for="Randomized" class="w-form-label optiontitle">Randomized</label>
+            </div>
+            <div class="w-radio w-clearfix">
+            <input id="EqualRatio" type="radio" name="weightDirstibution" value="EqualRatio" data-name="weightDirstibution" class="w-radio-input">
+            <label for="EqualRatio" class="w-form-label optiontitle">Equal ratio</label>
+         </div> -->
 
-           <label class="parametertitle">Decay time multiplier:</label>
-           <input id="decayTimeMultiplier" type="text" placeholder="Enter a Number More Than 1" name="decayTimeMultiplier" required="required" data-name="decayTimeMultiplier" class="w-input textfield">
+         <label class="parametertitle">Activation Decay in milliseconds:</label>
+         <input id="decayTime" type="text" placeholder="Enter the Activation Decay Time" name="decayTime" required="required" data-name="decayTime" class="w-input textfield">
 
-           <button id="save" class="w-button primingbutton formbutton" onClick="saveParameters();">Save And Reload</button>
-         </form>
+         <label class="parametertitle">Decay time multiplier:</label>
+         <input id="decayTimeMultiplier" type="text" placeholder="Enter a Number More Than 1" name="decayTimeMultiplier" required="required" data-name="decayTimeMultiplier" class="w-input textfield">
 
-         <div class="w-form-done">
-           <p>Thank you! Your submission has been received!</p>
-         </div>
-         <div class="w-form-fail">
-           <p>Oops! Something went wrong while submitting the form</p>
-         </div>
+         <button id="save" class="w-button primingbutton formbutton" onClick="saveParameters();">Save And Reload</button>
+      </form>
 
-       </div>
-     </div>
+      <div class="w-form-done">
+         <p>Thank you! Your submission has been received!</p>
+      </div>
+      <div class="w-form-fail">
+         <p>Oops! Something went wrong while submitting the form</p>
+      </div>
+
    </div>
+</div>
+</div>
 
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-   <script type="text/javascript" src="js/webflow.js"></script>
-   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script type="text/javascript" src="js/webflow.js"></script>
+<!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
 </html>
