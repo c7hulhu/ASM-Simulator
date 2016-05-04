@@ -27,7 +27,6 @@ var primingMethod = 'Word';
 var resistanceLevel = 100;
 var attributeWeightRep = 'Decimals';
 var attributeWeightIncrement = 0.3;
-// var weightDirstibution = 'Randomized';
 var decayTime = 5;
 var decayTimeMultiplier = 20;
 var numSampledAttributes = 19;
@@ -38,8 +37,6 @@ var baseline = 0.74;
 var selectionThreshold = 0.6;
 var numSampledAttributes = 19;
 
-// var dominantActivatedAttributes = [];
-// var secondaryActivatedAttributes = [];
 var activeAttributes = [];                    // an attribute index gets added upon activation and removed upon complete deactivation
 var timer = null;
 //---------------------------------------//
@@ -77,21 +74,21 @@ function generateArray(count) {
 //ratio: double - secondaryArray weights/dominantArray weights
 function randomizeWeights(count, ratio, dominantArray, secondaryArray)
 {
-      var ratio2=1-ratio;
-      var realRatio=0;
-      if(ratio>ratio2) realRatio=ratio2/ratio;
-      else realRatio=ratio/ratio2;
-      for(i = 0;i < count; i++) {
-        temp=Math.random();  // between 0 and 1
+  var ratio2=1-ratio;
+  var realRatio=0;
+  if(ratio>ratio2) realRatio=ratio2/ratio;
+  else realRatio=ratio/ratio2;
 
-        if (ratio > 0.5) {
-           dominantArray[i].weight=temp;
-           secondaryArray[i].weight=temp*realRatio;
-        }else{
-           dominantArray[i].weight=temp*realRatio;
-           secondaryArray[i].weight=temp;
-        }
-     }
+  for(i = 0;i < count; i++) {
+    temp=Math.random();  // between 0 and 1
+    if (ratio > 0.5) {
+      dominantArray[i].weight=temp;
+      secondaryArray[i].weight=temp*realRatio;
+    }else{
+      dominantArray[i].weight=temp*realRatio;
+      secondaryArray[i].weight=temp;
+    }
+  }
 }
 
 function reloadAttributes(){
@@ -104,26 +101,13 @@ function reloadAttributes(){
    secondaryMeaning.innerHTML = '';
 
    // Reload the attributes to show their most recent changes from the global arrays
-
-
    // if an attribute has a yellow border color, it must be recently activated... start deacy for that attribute
-
-
    // put the new values in the boxes
 
    var dominantAdjustedLiveWeight = 1;
    var secondaryAdjustedLiveWeight = 1;
 
    for (var i = 0; i < attributeCount; i++) {
-
-      if(dominantAttributeArray[i].borderColor == "FFFFFF"){
-         // remove from activated attributes
-      }
-
-      if(secondaryAttributeArray[i].borderColor == "FFFFFF"){
-         // remove from activated attributes
-      }
-
       dominantAdjustedLiveWeight = dominantAttributeArray[i].liveWeight;
       if(dominantAttributeArray[i].liveWeight>1){
          dominantAdjustedLiveWeight = 1;
@@ -134,28 +118,16 @@ function reloadAttributes(){
          secondaryAdjustedLiveWeight = 1;
       }
 
-      dominantMeaning.innerHTML +=   '<div id="att-'+ i +'" class="w-clearfix attribute"><div class="attributeweight">'+dominantAdjustedLiveWeight.toFixed(3)+'</div></div>';
-      secondaryMeaning.innerHTML +=  '<div id="att-'+ (i+attributeCount) + '" class="w-clearfix attribute"><div class="attributeweight">'+secondaryAdjustedLiveWeight.toFixed(3)+'</div></div>';
+      if (attributeWeightRep == 'Decimals') {
+        dominantMeaning.innerHTML +=   '<div id="att-'+ i +'" class="w-clearfix attribute"><div class="attributeweight">'+dominantAdjustedLiveWeight.toFixed(3)+'</div></div>';
+        secondaryMeaning.innerHTML +=  '<div id="att-'+ (i+attributeCount) + '" class="w-clearfix attribute"><div class="attributeweight">'+secondaryAdjustedLiveWeight.toFixed(3)+'</div></div>';
+      } else {
+        dominantMeaning.innerHTML +=   '<div id="att-'+ i +'" class="w-clearfix attribute"><div class="attributeweight">'+ (100*dominantAdjustedLiveWeight).toFixed(1)+'%</div></div>';
+        secondaryMeaning.innerHTML +=  '<div id="att-'+ (i+attributeCount) + '" class="w-clearfix attribute"><div class="attributeweight">'+ (100*secondaryAdjustedLiveWeight).toFixed(1)+'%</div></div>';
+      }
    }
 }
 
-
-// function startDecay() {
-//
-//    console.log("tick");
-//
-//    for (var i = 0; i < dominantActivatedAttributes.length; i++) {
-//
-//       dominantActivatedAttributes[i].borderColor = (parseInt(dominantActivatedAttributes[i].borderColor, 16) + (1/dominantActivatedAttributes[i].weight) * 5).toString(16).toUpperCase();
-//       console.log("dominant index " + dominantActivatedAttributes[i] + " border color: "+ dominantActivatedAttributes[i].borderColor);
-//    }
-//
-//    for (var i = 0; i < secondaryActivatedAttributes.length; i++) {
-//
-//       secondaryActivatedAttributes[i].borderColor = (parseInt(secondaryActivatedAttributes[i].borderColor, 16) + (1/secondaryActivatedAttributes[i].weight) * 5).toString(16).toUpperCase();
-//       console.log("dominant index " + secondaryActivatedAttributes[i] + " border color: "+ secondaryActivatedAttributes[i].borderColor);
-//    }
-// }
 
 function showParameters(){
    ipcRenderer.send('showSettings', {attributeCount : attributeCount,
@@ -163,7 +135,6 @@ function showParameters(){
                                     resistanceLevel : resistanceLevel,
                                  attributeWeightRep : attributeWeightRep,
                            attributeWeightIncrement : attributeWeightIncrement,
-                                 // weightDirstibution : weightDirstibution,
                                           decayTime : decayTime,
                                 decayTimeMultiplier : decayTimeMultiplier,
                                numSampledAttributes : numSampledAttributes});
@@ -175,15 +146,11 @@ ipcRenderer.on('new-Settings', function (event, args) {
    resistanceLevel = args.resistanceLevel;
    attributeWeightRep = args.attributeWeightRep;
    attributeWeightIncrement = args.attributeWeightIncrement;
-   // weightDirstibution = args.weightDirstibution;
    decayTime = args.decayTime;
    decayTimeMultiplier = args.decayTimeMultiplier;
    numSampledAttributes = args.numSampledAttributes;
    generateArray(attributeCount);
    reloadAttributes();
-
-   // dominantActivatedAttributes = [];
-   // secondaryActivatedAttributes = [];
 
    clearInterval(timer);
    timer = false;
@@ -212,25 +179,10 @@ ipcRenderer.on('new-Data', function (event, args) {
    document.getElementById('dominantMeaningTicker').innerHTML = 'Dominant Meaning/Spelling: &nbsp;'+dominantMeaning;
    document.getElementById('secondaryMeaningTicker').innerHTML = 'Secondary Meaning/Spelling: &nbsp;'+secondaryMeaning;
 
-   // var adjustedBaseline;
-   // var adjustedMeaning;
-   // if(baseline<0.5){
-   //    adjustedBaseline = 100*(1-baseline);
-   //    adjustedMeaning = 'Secondary';
-   // }else{
-   //    adjustedBaseline = 100*baseline;
-   //    adjustedMeaning = 'Dominant';
-   // }
-   //
-   // document.getElementById('currentSelection').innerHTML = 'Current Selection: &nbsp;'+adjustedMeaning+' - '+adjustedBaseline.toFixed(2)+'%';
-
    generateArray(attributeCount);
    reloadAttributes();
 
    calculateCurrentSelection();
-
-   // dominantActivatedAttributes = [];
-   // secondaryActivatedAttributes = [];
 
    clearInterval(timer);
    timer = false;
@@ -243,24 +195,9 @@ function startTimer() {
    if(!timer){
       timer = setInterval( function startDecay() {
          console.log("tick");
-
-         // for (var i = 0; i < dominantActivatedAttributes.length; i++) {
-         //    dominantActivatedAttributes[i].borderColor = (parseInt(dominantActivatedAttributes[i].borderColor, 16) + (1/dominantActivatedAttributes[i].weight) * 5).toString(16).toUpperCase();
-         //    console.log("ON LOAD dominant index " + dominantActivatedAttributes[i] + " border color: "+ dominantActivatedAttributes[i].borderColor);
-         // }
-         //
-         // for (var i = 0; i < secondaryActivatedAttributes.length; i++) {
-         //    secondaryActivatedAttributes[i].borderColor = (parseInt(secondaryActivatedAttributes[i].borderColor, 16) + (1/secondaryActivatedAttributes[i].weight) * 5).toString(16).toUpperCase();
-         //    console.log("ON LOAD secondary index " + secondaryActivatedAttributes[i] + " border color: "+ secondaryActivatedAttributes[i].borderColor);
-         // }
-
-
          for (var i = 0; i < attributeCount; i++) {
 
             if (dominantAttributeArray[i].multiplier > 1.0) {
-               // document.getElementById(i).style.borderColor = "#"+(parseInt(dominantAttributeArray[i].borderColor, 16) + (1/dominantAttributeArray[i].weight) * 5).toString(16).toUpperCase();
-               // document.getElementById('att-'+i).style.borderColor = "#000000";
-               // dominantAttributeArray[i].borderColor = (parseInt(dominantAttributeArray[i].borderColor, 16) + (1/dominantAttributeArray[i].weight) * 5).toString(16).toUpperCase();
                dominantAttributeArray[i].multiplier -= (dominantAttributeArray[i].multiplier)*0.0125;
                if (dominantAttributeArray[i].multiplier < 1.0){
                   dominantAttributeArray[i].multiplier = 1.0;
@@ -268,7 +205,6 @@ function startTimer() {
             }
 
             if (secondaryAttributeArray[i].multiplier > 1.0) {
-               // secondaryAttributeArray[i].borderColor = (parseInt(secondaryAttributeArray[i].borderColor, 16) + (1/secondaryAttributeArray[i].weight) * 5).toString(16).toUpperCase();
                secondaryAttributeArray[i].multiplier -= (secondaryAttributeArray[i].multiplier)*0.0125;
                if (secondaryAttributeArray[i].multiplier < 1.0){
                   secondaryAttributeArray[i].multiplier = 1.0;
@@ -321,11 +257,7 @@ function primeDominant() {
      } else {
         dominantAttributeArray[randPlace].multiplier+=.5;
         dominantAttributeArray[randPlace].borderColor = "FFFF00";
-
      }
-
-   //   dominantActivatedAttributes.push(randPlace);
-   // checkAndAdd(dominantActivatedAttributes, randPlace);
 
      initialToPrime--;
   }
@@ -368,8 +300,6 @@ function primeSecondary(){
            secondaryAttributeArray[randPlace].borderColor = "FFFF00";
         }
 
-      //   secondaryActivatedAttributes.push(randPlace);
-
         initialToPrime--;
      }
 
@@ -387,22 +317,18 @@ function finishPriming(remainingCount, id){
          if(id == 1){
             dominantAttributeArray[randPlace].multiplier += 0.2;
             dominantAttributeArray[randPlace].borderColor = "FFFF00";
-            // dominantActivatedAttributes.push(randPlace);
          }else{
             secondaryAttributeArray[randPlace].multiplier += 0.2;
             secondaryAttributeArray[randPlace].borderColor = "FFFF00";
-            // secondaryActivatedAttributes.push(randPlace);
          }
       }else{
          // select from the other array
          if(id == 1){
             secondaryAttributeArray[randPlace].multiplier += 0.2;
             secondaryAttributeArray[randPlace].borderColor = "FFFF00";
-            // secondaryActivatedAttributes.push(randPlace);
          }else{
             dominantAttributeArray[randPlace].multiplier += 0.2;
             dominantAttributeArray[randPlace].borderColor = "FFFF00";
-            // dominantActivatedAttributes.push(randPlace);
          }
       }
 
@@ -462,50 +388,6 @@ function makeSelection(){
 }
 
 
-//    var dominantSum = 0;
-//    var secondarySum = 0;
-//
-//    var di = [];
-//    var si = [];
-//
-//    while (toSampleCount > 0) {
-//       randPlace=((Math.random()*1000)|0)%attributeCount;
-//
-//       if(Math.random() < 0.5){
-//          // dominantAttributeArray[randPlace].weight += attributeWeightIncrement;
-//          dominantSum += dominantAttributeArray[randPlace].weight;
-//          di.push(randPlace);
-//       }else{
-//          // secondaryAttributeArray[randPlace].weight += attributeWeightIncrement;
-//          secondarySum += secondaryAttributeArray[randPlace].weight;
-//          si.push(randPlace);
-//       }
-//
-//       toSampleCount--;
-//    }
-//
-//
-//    if(dominantSum > secondarySum){
-//       alert("dominant wins!");
-//       for (var i = 0; i < numSampledAttributes/2; i++) {
-//          dominantAttributeArray[di[i]].weight += attributeWeightIncrement;
-//       }
-//    }else{
-//       alert("secondary wins!");
-//       for (var i = 0; i < numSampledAttributes/2; i++) {
-//          secondaryAttributeArray[si[i]].weight += attributeWeightIncrement;
-//       }
-//    }
-//
-//    calculateCurrentSelection();
-//
-//    resetActivationLevels();
-//
-//    clearInterval(timer);
-//    timer = false;
-// }
-
-
 function calculateCurrentSelection(){
    var totalDominant = 0;
    var totalSecondary = 0;
@@ -515,12 +397,10 @@ function calculateCurrentSelection(){
       totalSecondary += secondaryAttributeArray[i].weight;
    }
 
-   alert("totalDominant: "+totalDominant+ " totalSecondary: "+totalSecondary);
 
    var currentBaseline = totalDominant/(totalDominant+totalSecondary);
    var adjustedMeaning;
 
-   alert("currentBaseline: "+currentBaseline);
 
    if(currentBaseline >= selectionThreshold){
       adjustedMeaning = 'Dominant';
