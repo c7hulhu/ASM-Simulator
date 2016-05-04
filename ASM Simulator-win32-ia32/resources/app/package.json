@@ -1,0 +1,15 @@
+{
+  "name": "ASM Simulator",
+  "version": "0.1",
+  "main": "app.js",
+  "devDependencies": {
+    "electron-prebuilt": "^0.26.1"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "author":"Reza Moghtaderi, etc.",
+  "devDependencies": {
+     "electron-prebuilt": "^0.28.3"
+ }
+}

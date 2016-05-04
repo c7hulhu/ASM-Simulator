@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DataIO</title>
+  <meta property="og:title" content="DataIO">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/webflow.css">
+  <link rel="stylesheet" type="text/css" href="css/ASM.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Montserrat:400,700","Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic"]
+      }
+    });
+  </script>
+  <script type="text/javascript" src="js/modernizr.js"></script>
+  <script type="text/javascript" src="dataio.js"></script>
+
+</head>
+<body class="background">
+  <div class="w-container">
+    <h1 class="header">Data Import/Export</h1>
+  </div>
+  <div class="w-container">
+    <div class="w-form formwrapper">
+      <form id="email-form" name="email-form" data-name="Email Form" class="w-clearfix form">
+
+        <label for="dominantMeaning" class="parametertitle">Dominant Meaning/Spelling:</label>
+        <input id="dominantMeaning" type="text" placeholder="Enter Primary Meaning" name="dominantMeaning" data-name="dominantMeaning" required="required" class="w-input textfield">
+
+        <label for="secondaryMeaning" class="parametertitle">Secondary Meaning/Spelling:</label>
+        <input id="secondaryMeaning" type="text" placeholder="Enter Secondary Meaning" name="secondaryMeaning" data-name="secondaryMeaning" required="required" class="w-input textfield">
+
+        <label for="baseline" class="parametertitle">Dominant Bias Baseline:</label>
+        <input id="baseline" type="text" placeholder="Enter a Number Less Than 1" name="baseline" data-name="baseline" required="required" class="w-input textfield">
+
+        <label for="selectionThreshold" class="parametertitle">Meaning/Spelling Selection Threshold:</label>
+        <input id="selectionThreshold" type="text" placeholder="Enter a Number Less Than 1" name="selectionThreshold" data-name="selectionThreshold" required="required" class="w-input textfield">
+
+        <button id="updateData" class="w-button primingbutton formbutton" onClick="saveData();">Save And Reload</button>
+
+      </form>
+      <div class="w-form-done">
+        <p>Thank you! Your submission has been received!</p>
+      </div>
+      <div class="w-form-fail">
+        <p>Oops! Something went wrong while submitting the form</p>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript" src="js/webflow.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ASM Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/webflow.css">
+  <link rel="stylesheet" type="text/css" href="css/ASM.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic","Montserrat:400,700"]
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+  <script type="text/javascript" src="js/modernizr.js"></script>
+
+  <script type="text/javascript" src="main.js"></script>
+
+</head>
+<body class="background">
+  <div class="maindiv">
+
+    <h1 class="header">Activation Selection Model Simulator</h1>
+
+    <div class="w-container wordmeaningcontainer">
+      <div id="dominantMeaningTicker" class="wordmeaing">Dominant Meaning/Spelling: &nbsp;Right</div>
+      <div id="secondaryMeaningTicker" class="wordmeaing">Secondary Meaning/Spelling: &nbsp;Write</div>
+    </div>
+
+
+    <div class="w-container attributeboxcontainer">
+
+      <div class="attributebox"  id="dominantMeaning">
+      </div>
+
+      <div class="attributebox"  id="secondaryMeaning">
+      </div>
+
+    </div>
+
+    <div class="w-container primingstatuscontainer">
+      <div id="currentSelection" class="currentmeaning">Current Selection: &nbsp;Dominant - 74.00%</div>
+      <div id="primingSequencePrompt" class="primingsequence">Priming Sequence: [press one of the priming buttons below]&nbsp;</div>
+      <div id="primingSequence" class="primingsequence">Priming Sequence: &nbsp;</div>
+    </div>
+
+    <div class="w-container primingbuttoncontainer">
+      <a href="#" class="w-button primingbutton" onclick="primeDominant();">Dominant Prime</a>
+      <a href="#" class="w-button primingbutton" onclick="makeSelection();">Make Selection</a>
+      <a href="#" class="w-button primingbutton" onclick="primeSecondary();">Secondary Prime</a>
+    </div>
+    <div class="w-container primingbuttoncontainer">
+      <a href="#" class="w-button primingbutton" onClick="showParameters();">Parameters</a>
+      <a href="#" class="w-button primingbutton" onClick="showTutorial();">Tutorial</a>
+      <a href="#" class="w-button primingbutton" onclick="showDataIO();">Import/Export</a>
+    </div>
+
+  </div>
+
+  <script type="text/javascript" src="js/webflow.js"></script>
+
+</body>
+</html>
