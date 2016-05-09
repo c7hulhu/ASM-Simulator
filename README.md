@@ -11,7 +11,7 @@
 ####Wher to find the documents:
 
 * You can see the original research article [Here](http://link.springer.com/article/10.3758%2FBF03192931 "Springer")
-* You can see a video tutorial of the simulator [Here](https://drive.google.com/open?id=0B-0aS93XwpzjWGlRVDd4UHlwRk0 "Video Tutorial")
+* You can see a video tutorial of the simulator [Here](https://drive.google.com/file/d/0B-0aS93XwpzjU0dGWGM2bk1rYUU/view?usp=sharing "Video Tutorial")
 * There are two IEEE software engineering documents included in the **IEEE** folder in the main directory
 
 ####Testing:
