@@ -34,4 +34,4 @@ Remaining work on this project include:
 * Bug fixes to address the Nan value issue when changing the parameters
 * Incorporating any new requests of the client into version 2.0
 * Publishing the software under GNU V3.0 or MIT open-source licenses
-
+* transfer the ownership of the application to the original researcher
