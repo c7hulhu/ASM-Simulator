@@ -31,8 +31,8 @@ var decayTime = 5;
 var decayTimeMultiplier = 20;
 var numSampledAttributes = 19;
 
-var dominantMeaning = 'Right';
-var secondaryMeaning = 'Write';
+var dominantMeaning = 'Air';
+var secondaryMeaning = 'Heir';
 var baseline = 0.74;
 var selectionThreshold = 0.6;
 var numSampledAttributes = 19;
@@ -133,7 +133,7 @@ function showParameters(){
    ipcRenderer.send('showSettings', {attributeCount : attributeCount,
                                       primingMethod : primingMethod,
                                     resistanceLevel : resistanceLevel,
-                                 attributeWeightRep : attributeWeightRep,
+                                 // attributeWeightRep : attributeWeightRep,
                            attributeWeightIncrement : attributeWeightIncrement,
                                           decayTime : decayTime,
                                 decayTimeMultiplier : decayTimeMultiplier,
@@ -141,10 +141,11 @@ function showParameters(){
 }
 
 ipcRenderer.on('new-Settings', function (event, args) {
+
    attributeCount = args.attributeCount;
    primingMethod = args.primingMethod;
    resistanceLevel = args.resistanceLevel;
-   attributeWeightRep = args.attributeWeightRep;
+   // attributeWeightRep = args.attributeWeightRep;
    attributeWeightIncrement = args.attributeWeightIncrement;
    decayTime = args.decayTime;
    decayTimeMultiplier = args.decayTimeMultiplier;
@@ -369,6 +370,8 @@ function makeSelection(){
             currentWeight += secondaryAttributeArray[unifiedIndex - attributeCount].liveWeight;
          }
       }
+
+      // alert("unifiedIndex: "+unifiedIndex+"  attributeCount: "+attributeCount);
 
       if (unifiedIndex < attributeCount) {
          dominantAttributeArray[unifiedIndex].weight += attributeWeightIncrement;

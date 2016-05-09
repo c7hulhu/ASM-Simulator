@@ -44,7 +44,7 @@ ipcRenderer.on('old-Settings', function(event, args){
    document.getElementById('attributeCount').value = args.attributeCount;
    document.getElementById(args.primingMethod).checked = true;
    document.getElementById('resistanceLevel').value = args.resistanceLevel;
-   document.getElementById(args.attributeWeightRep).checked = true;
+   // document.getElementById(args.attributeWeightRep).checked = true;
    document.getElementById('attributeWeightIncrement').value = args.attributeWeightIncrement;
    // document.getElementById(args.weightDirstibution).checked = true;
    document.getElementById('decayTime').value = args.decayTime;
